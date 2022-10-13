@@ -119,19 +119,16 @@
   - 과정:
 
     1. [Training] 각 가설마다, Training Set 을 사용해서 퍼포먼스가 제일 좋은 모델들을 찾습니다. 
-       $$
-       \hat{M}_m=\arg \min _{M \in H_m} \sum_{(x, y) \in D} L(M(x), y)
-       $$
+
+       $$\hat{M}_m=\arg \min _{M \in H_m} \sum_{(x, y) \in D} L(M(x), y)$$
 
     2. [Model Selection] Validation Set 을 사용해서 훈련된 모델들 중에 제일 좋은 모델을 선택합니다. 
-       $$
-       \hat{M}_m=\arg \min _{M \in H_m} \sum_{(x, y) \in D_{v a l}} L(M(x), y)
-       $$
+
+       $$\hat{M}_m=\arg \min _{M \in H_m} \sum_{(x, y) \in D_{v a l}} L(M(x), y)$$
 
     3. [Reporting] Test Set 를 사용해서 제일 좋은 모델의 퍼포먼스를 측정합니다.
-       $$
-       R(\hat{M}) \approx \frac{1}{\left|D_{\text {test }}\right|} \sum_{(x, y) \in D_{\text {test }}} L(\hat{M}(x), y)
-       $$
+
+       $$R(\hat{M}) \approx \frac{1}{\left|D_{\text {test }}\right|} \sum_{(x, y) \in D_{\text {test }}} L(\hat{M}(x), y)$$
 
 
 
@@ -346,16 +343,16 @@
 ### (3) 학습내용
 
 - 지도학습은 Input(x) 값을 넣었을 때 Output(y) 값을 산출 하는 것입니다. 하지만 조금만 다르게 생각해서, **Input(x) 값이 주어졌을 때 의 Output(y) 값이 y’ 일 확률을 구하는 것**으로 생각할 수 있습니다.
-  $$
-  f_\theta(x)=? \quad \rightarrow \quad p\left(y=y^{\prime} \mid x\right)=?
-  $$
+
+  $$f_\theta(x)=? \quad \rightarrow \quad p\left(y=y^{\prime} \mid x\right)=?$$
 
 - 어떤 확률 분포들이 있을까요?
 
 - - 이진 분류: 베르누이(Bernoulli) 분포
-    $$
-    p(y \mid x)=\mu^y(1-\mu)^{1-y} \text {, where } y \in\{0,1\}
-    $$
+
+    $$p(y \mid x)=\mu^y(1-\mu)^{1-y} \text {, where } y \in\{0,1\}$$
+
+    
 
     - sigmoid를 이용해서 0~1사이로 맞춰주기
     - ![image-20221013225735615](assets/image-20221013225735615.png)
