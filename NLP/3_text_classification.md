@@ -154,6 +154,164 @@
 
 
 
+### (6) 학습자료
+
+각 패키지 별로 Table look up 과정인 단어 임베딩에 대한 설명 및 튜토리얼
+
+[ ![img](https://cphinf.pstatic.net/mooc/20180712_245/1531376743512ps5Gi_PNG/3rFdeX08IH9cz8iJH4ZJ.png?type=mfullfill_199_148)**Vector Representations of Words | TensorFlow**https://www.tensorflow.orgTensorFlow에서 Table look up 과정(Word Embedding)에 대한 설명과 튜토리얼입니다.](https://www.tensorflow.org/tutorials/representation/word2vec)
+
+[**Word Embeddings | Pytorch**https://pytorch.orgPytorch에서 Table look up 과정(Word Embedding)에 대한 설명과 튜토리얼입니다.](https://pytorch.org/tutorials/beginner/nlp/word_embeddings_tutorial.html)
+
+
+
+
+
+
+
+## [3] CBoW & RN & CNN
+
+### (1) 학습목표
+
+문장을 표현하는 방법중 CBoW, RN, CNN 에 대해서 알아봅니다.
+
+
+
+### (2) 핵심키워드
+
+- 문장표현(Sentence representation)
+
+- Continuous bag-of-words
+
+- Relation Network
+
+- Convolution Neural Network
+
+  
+
+### (3) 학습내용
+
+- 문장표현(Sentence representation)의 의미: 어떤 과제를 풀기에 적합하고 숫자로 나타낸 문장의 표현입니다
+
+- **CBoW**(Continuous bag-of-words):
+
+- - 단어장을 단어 주머니로 보게되고, 이에 따라 단어의 **순서는 무시**합니다. 
+
+  - 문장에 대한 표현은 단어 벡터들을 **평균시킨 벡터**로 구합니다.
+
+    $ \dfrac{1}{T} \sum_{t=1}^T e_t$
+
+  - 효과가 좋기 때문에 제일 먼저 시도해봐야합니다. (**Baseline 모델**)
+
+  - 공간상에서 가까우면 비슷한 의미, 아니면 멀리 떨어져 있을 것입니다.
+
+    - input이 문장이라면, 문장들이 비슷하면 가깝게, 아니면 멀게 떨어짐
+
+    <img src="assets/image-20221015183421396.png" alt="image-20221015183421396" style="zoom:67%;" />
+
+  - In practice, use **FastText** [Bojanowski et al., 2017]
+
+- **Relation Network**(Skip-Bigram)
+
+- - 문장안에 있는 **모든 토큰 쌍**(pairs)을 보고, 각 쌍에 대해서 representation 찾아서, 신경망을 만들어서 문장표현을 찾습니다.
+
+    $RN(X) = \dfrac{1}{2N(N-1)}\sum_{i=1}^{T-1}\sum_{j=i+1}^T f(x_i,x_j)$
+
+    where, $f(x_i,x_j) = W \phi(U_{left}e_i + U_{right}e_j)$, 
+
+    $\phi$ is  a element-wise nonlinear function, such as tanh or ReLU(max(0,a))
+
+    <img src="assets/image-20221015184044360.png" alt="image-20221015184044360" style="zoom:67%;" />
+
+    ![image-20221015184119307](assets/image-20221015184119307.png)
+
+  - 장점: 여러 단어로 된 표현을 탐지 할 수 있습니다.
+
+  - 단점: 모든 단어간의 관계를 보기 때문에, 전혀 연관이 없는 단어도 보게 됩니다.
+
+    - SVO 형식이라면, 첫 단어와 마지막 단어 간의 연관이 중요할까?
+
+
+
+- **Convolution Neural Network**(CNN)
+
+  - 아이디어
+
+    - Local 한 Feature를 많이 뽑겠다
+
+  - 특징:
+
+    - k-gram을 계층적으로(hierachically) 보게 됩니다.
+    - **Layer 를 쌓을 때 마다, 점진 적으로 넓은 범위를 보기** 때문에, "단어> 다중 단어 표현> 구절 > 문장"순으로 보는 인간의 인식과도 알맞습니다. 
+    - 1차원의 Convolutional Network 입니다.
+
+  - 장점: 좁은 지역간 단어의 관계를 볼수 있습니다.
+
+    
+
+### (4) 교수님말씀
+
++ 머신러닝이 알고리즘 디자인이라면, 똑같은 프레임워크 그대로 써서 여러 곳에 사용할 수 있다.
+
++ SVO 형식의 문장에서, RN의 대체제로 CNN 생각가능
+
+
+
+
+
+### (5) 학습자료
+
+[**[1607.04606\] Enriching Word Vectors with Subword Information**https://arxiv.orgFastText 와 관련된 논문입니다.](https://arxiv.org/abs/1607.04606)
+
+[**FastText**https://fasttext.ccFastText 패키지 소개페이지 입니다.](https://fasttext.cc/)
+
+
+
+Advances in CNN
+
+[**[1408.5882\] Convolutional Neural Networks for Sentence Classification**https://arxiv.org교수님께서 소개한 Multi-width convolutional layers: Yoon Kim 의 논문입니다.](https://arxiv.org/abs/1408.5882)
+
+[**[1610.10099\] Neural Machine Translation in Linear Time**https://arxiv.org교수님께서 소개한 Dilated convolutional layers: Nal Kalchbrenner 의 논문입니다.](https://arxiv.org/abs/1610.10099)
+
+[**[1705.03122\] Convolutional Sequence to Sequence Learning**https://arxiv.org교수님께서 소개한 Gated convolutional layers: Jonas Gehring 의 논문입니다.](https://arxiv.org/abs/1705.03122)
+
+
+
+
+
+
+
+
+
+
+
+## [4] Self Attention & RNN
+
+### (1) 학습목표
+
+문장을 표현하는 방법중 Self Attention 과 RNN 에 대해서 알아봅니다.
+
+
+
+### (2) 핵심키워드
+
+- Self Attention
+
+- Recurrent Neural Network 
+
+  
+
+### (3) 학습내용
+
+
+
+### (4) 교수님말씀
+
+
+
+
+
+
+
 
 
 ---
@@ -175,3 +333,14 @@
 
 
 ### (4) 교수님말씀
+
+
+
+
+
+
+
+### 할 것
+
++ use FastText [Bojanowski et al., 2017] 코드 찾기
++ table lookup 이해하기
