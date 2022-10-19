@@ -1,4 +1,4 @@
-
+# Text Classification & Sentence Representation
 
 
 
@@ -11,35 +11,46 @@
 
 
 - [[1] Overview](#1-overview)
-	- [(1) 학습목표](#1-학습목표)
-	- [(2) 핵심키워드](#2-핵심키워드)
-	- [(3) 학습내용](#3-학습내용)
-	- [(4) 교수님말씀](#4-교수님말씀)
+  - [(1) 학습목표](#1-학습목표)
+  - [(2) 핵심키워드](#2-핵심키워드)
+  - [(3) 학습내용](#3-학습내용)
+  - [(4) 교수님말씀](#4-교수님말씀)
 - [[2] How to represent sentence & token](#2-how-to-represent-sentence--token)
-	- [(1) 학습목표](#1-학습목표-1)
-	- [(2) 핵심키워드](#2-핵심키워드-1)
-	- [(3) 학습내용](#3-학습내용-1)
-	- [(4) 교수님말씀](#4-교수님말씀-1)
-	- [(5) 정리](#5-정리)
-	- [(6) 학습자료](#6-학습자료)
+
+  - [(1) 학습목표](#1-학습목표-1)
+  - [(2) 핵심키워드](#2-핵심키워드-1)
+  - [(3) 학습내용](#3-학습내용-1)
+  - [(4) 교수님말씀](#4-교수님말씀-1)
+  - [(5) 정리](#5-정리)
+  - [(6) 학습자료](#6-학습자료)
+
 - [[3] CBoW & RN & CNN](#3-cbow--rn--cnn)
-	- [(1) 학습목표](#1-학습목표-2)
-	- [(2) 핵심키워드](#2-핵심키워드-2)
-	- [(3) 학습내용](#3-학습내용-2)
-	- [(4) 교수님말씀](#4-교수님말씀-2)
-	- [(5) 학습자료](#5-학습자료)
+
+  - [(1) 학습목표](#1-학습목표-2)
+  - [(2) 핵심키워드](#2-핵심키워드-2)
+  - [(3) 학습내용](#3-학습내용-2)
+  - [(4) 교수님말씀](#4-교수님말씀-2)
+  - [(5) 학습자료](#5-학습자료)
+
 - [[4] Self Attention & RNN](#4-self-attention--rnn)
-	- [(1) 학습목표](#1-학습목표-3)
-	- [(2) 핵심키워드](#2-핵심키워드-3)
-	- [(3) 학습내용](#3-학습내용-3)
-	- [(4) 교수님말씀](#4-교수님말씀-3)
-- [[]](#)
-	- [(1) 학습목표](#1-학습목표-4)
-	- [(2) 핵심키워드](#2-핵심키워드-4)
-	- [(3) 학습내용](#3-학습내용-4)
-	- [(4) 교수님말씀](#4-교수님말씀-4)
 
+  - [(1) 학습목표](#1-학습목표-3)
+  - [(2) 핵심키워드](#2-핵심키워드-3)
+  - [(3) 학습내용](#3-학습내용-3)
+  - [(4) 교수님말씀](#4-교수님말씀-3)
+  - [(5) 학습자료](#5-학습자료-1)
 
+- [[5] Summary](#5-summary)
+
+  - [(1) 학습목표](#1-학습목표-4)
+  - [(2) 핵심키워드](#2-핵심키워드-4)
+  - [(3) 학습내용](#3-학습내용-4)
+  - [(4) 교수님말씀](#4-교수님말씀-4)
+  - [(5) 학습자료](#5-학습자료-2)
+
+- [[6] QnA](#6-qna)
+
+  
 
 
 
@@ -343,32 +354,44 @@ Advances in CNN
 - CNN:
 
   - 작은 범위의 토큰의 관계를 봅니다. 따라서 더 먼 거리의 단어간의 관계가 있을 경우 탐지할 수 없거나 더 많은 convolution 층을 쌓아야합니다.
-  - 
+  - $h_t = f(x_t,x_{t-k}) + \cdots + f(x_t,x_t) + \cdots + f(x_t,x_{t+k})$
 
 - 하지만 CNN 방식을 가중치가 부여된 RN의 일종으로 볼 수도 있습니다.
 
-  - *h**t*=∑*t*′=1*T**I*(∣*t*′−*t*∣≤*k*)*f*(*x**t*,*x**t*′)  where  *I*(*S*)=1 if  *S* is  *T**r**u**e* &  0 otherwise
+  - $h_t = \sum_{t\prime=1}^T I(|t^\prime-t| \leq k) f(x_t,x_{t^\prime})$, where $I(S) = 1$  if $S $ is True & 0 otherwise
 
-- 그렇다면 가중치가 0 과 1 이 아닌 그 사이의 값으로 계산 할 수 있다면 어떨까요?
+  
 
-- Self Attention
+- 그렇다면 가중치가 0 과 1 이 아닌 그 사이의 값으로 NN이 계산 할 수 있다면 어떨까요?
 
-  -  *h**t*=∑*t*′=1*T**α*(*x**t*,*x**t*′)*f*(*x**t*,*x**t*′) 
-  - *α*(*x**t*,*x**t*′)=∑*t*′=1*T*exp(*β*(*x**t*,*x**t*′))exp(*β*(*x**t*,*x**t*′))
-    - where  *β*(*x**t*,*x**t*′)=*R**N*(*x**t*,*x**t*′) 
+- **Self Attention**
 
-  - 장점:
+  -  $\alpha()$ 가 모든 pair의 weight를 결정
+
+  -  $h_t = \sum_{t\prime=1}^T \alpha(x_t,x_{t^\prime}) f(x_t,x_{t^\prime})$
+
+     -  $\alpha(x_t,x_{t^\prime}) = \dfrac{exp(\beta(x_t,x_{t^\prime}))}{\sum_{t^\prime=1}^T exp(\beta(x_t,x_{t^\prime}))}$  
+
+       where, $\beta(x_t,x_{t^\prime}) = RN(x_t, x_{t^\prime})$
+
+     -   $ \alpha(x_t,x_{t^\prime}) = \sigma(RN(x_t,x_{t^\prime}))$
+
+  -  장점:
+
     - Long range & short range dependency 극복할 수 있습니다.
     - 관계가 낮은 토큰은 억제하고 관계가 높은 토큰은 강조할 수 있습니다.
 
-  - 단점
-    - 계산 복잡도가 높고 counting 같은 특정 연산이 쉽지 않습니다. 
+  -  단점
+    - 계산량 $O(T^2)$ 으로 크다
+    - counting 같은 특정 연산이 쉽지 않습니다. 
+      - 현재 단어가 앞 단어와 몇 단어 떨어져 있는지 계산하는 것 쉽지 않음
 
-- Recurrent Neural Network(RNN):
+- **Recurrent Neural Network(RNN):**
 
+  - 문장을 쭉 한 번 읽으면서, 벡터로 compress 할 수 있음!
   - 메모리를 가지고 있어서 현재까지 읽는 정보를 저장할 수 있습니다.
 
-- - 문장의 정보를 시간의 순서에 따라 압축 할 수 있습니다.
+  + 문장의 정보를 시간의 순서에 따라 압축 할 수 있습니다.
 
   - 단점:
 
@@ -404,8 +427,154 @@ Advances in CNN
   + 단점
     + 계산량 $O(T^2)$ 으로 크다
     + counting이 쉽지 않음
+      + 현재 단어가 앞 단어와 몇 단어 떨어져 있는지 계산하는 것 쉽지 않음
 + RNN
-  + 문장을 쭉 읽으면서, compress 할 수 있
+  + 문장을 쭉 읽으면서, 벡터 1개로 compress 할 수 있음.
+
+
+
+
+
+### (5) 학습자료
+
+
+
+
+
+
+
+## [5] Summary
+
+### (1) 학습목표
+
++ 지금까지 배운 "텍스트 분류문제"와 "문장표현"에 대해서 다시 한번 정리하고 복습합니다 
+
+
+
+### (2) 핵심키워드
+
++ 텍스트 분류(Text Classification)
+
++ 문장표현(Sentence Representation)
+
+  
+
+### (3) 학습내용
+
+
+
+
+
+### (4) 교수님말씀
+
+**Token representation**
+
++ How do we represent a discrete token in a neural network?
++ Token representation은 continuous word embedding과 같은 곳에도 쓸 수 있다.
+
+
+
+
+
+**Sentence representation**
+
++ Token representation을 어떻게 잘 합쳐서 Sentence representation 을 만드느냐?
++ sentence를 어떻게 represent하는지 5가지 방법 살펴봄
+  + CBoW
+  + Relational Network(skip-bigram)
+  + CNN
+  + self-attention
+    + Relational Network(skip-bigram), CNN를 combine & 일반화
+  + RNN
+
++ 5가지 방법은 서로 combine해서 사용가능하다. 
+
+
+
+
+
+
+
+
+
+### (5) 학습자료
+
+[**[1804.09849\] The Best of Both Worlds: Combining Recent Advances in Neural Machine Translation**https://arxiv.org기계번역에서 Self Attention 과 RNN 을 결합해 사용한 논문](https://arxiv.org/abs/1804.09849)
+
+[**[1610.03017\] Fully Character-Level Neural Machine Translation without Explicit Segmentation**https://arxiv.orgRNN 위에 CNN 을 쌓아서 효율적인 글자 단위의 기계번역 시스템을 만든 논문](https://arxiv.org/abs/1610.03017)
+
+
+
+
+
+
+
+## [6] QnA
+
+**1. 단어 임베딩에서 다의어(polysemy) 문제는 어떻게 해결하나요?** (이해잘안감)
+
++ context를 보면 대부분 가능
++ 2가지를 생각해봐야 함
+  1. lookup table의 벡터들이 굉장히 high dim space
+     + 1 dim : 이웃 2개
+     + 2 dim : 이웃 무한히 많음
+     + 3 dim : 이웃 무한히 많음 
+     + 고차원 : 이웃 매우 많음
+  2. 고차원에서 여러 의미를 다 encode 가능하게 되므로, 이중에 무엇을 고르는지는 sentence representation 에서 가능
+
+
+
+
+
+**2. 훈련 데이터에 없는 새로운 단어는 어떻게 표현이 되나요?**
+
++ 질문에 답을 하기 위해서는, 어떤 level에서 token을 정의했는지 살펴봐야 함
+  + 만약 token이 알파벳 level이라면, 새로운 단어의 표현은 알파벳 임베딩을 어떻게 합치느냐의 문제가 됨
+  + 만약 단어나 모르픽 level token이라면, 여러 방법들이 있음
+    1. 새로운 단어를 쓰는 example을 train set에 추가해서, 모델을 fine tuning
+    2. 새로운 단어를 기존의 단어들의 임베딩을 이용해서 만들어 주기 (Universal lexi.. 다른 언어 표현할 때, 어떻게 weighted sum하는지에 관한 논문이 있음)
+
+
+
+
+
+
+
+
+
+**3. 분류 모델 훈련 완료후, 새로운 클래스가 등장했을 때 어떻게 해결하나요?** (이해 x)
+
+1. 가장 단순한 방식은, 새로 data 모아서 , 새로 train
+
+2. example 몇 개만 추가한 다음에, weight vector 몇 개 늘어난 애들만, estimation 다시하기
+
+3. 클래스가 많고, 클래스의 의미를 안다면, 클래스의 description을 알 수 있음
+   + 클래스가 호랑이라면 고양이과의 뭐고(description) 와 같은 것이 있다면, ...
+4. zero shot, few shot learning, 제이슨 웨스턴 [WSABIE: Scaling Up To Large Vocabulary Image Annotation](https://static.googleusercontent.com/media/research.google.com/ko//pubs/archive/37180.pdf) (잘됨) 를 참고
+
+
+
+
+
+
+
+**4. 임베딩에서 “가깝다”는 벡터 공간에서 코사인 유사도를 말하는 건가요? 아니면 다른 distance metrics 를 정의해서 사용하나요?**
+
++ 거리를 정의하는 것도 hyper parameter고, 이에 따라 가설집합 달라지고, model selection 하면 됨
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
