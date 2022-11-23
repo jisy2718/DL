@@ -202,7 +202,17 @@
 
 [ ![img](https://cphinf.pstatic.net/mooc/20180712_245/1531376743512ps5Gi_PNG/3rFdeX08IH9cz8iJH4ZJ.png?type=mfullfill_199_148)**Vector Representations of Words | TensorFlow**https://www.tensorflow.orgTensorFlow에서 Table look up 과정(Word Embedding)에 대한 설명과 튜토리얼입니다.](https://www.tensorflow.org/tutorials/representation/word2vec)
 
+
+
+
+
+#### 워드임베딩 학습
+
 [**Word Embeddings | Pytorch**https://pytorch.orgPytorch에서 Table look up 과정(Word Embedding)에 대한 설명과 튜토리얼입니다.](https://pytorch.org/tutorials/beginner/nlp/word_embeddings_tutorial.html)
+
+
+
+
 
 
 
